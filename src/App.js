@@ -1,10 +1,12 @@
 import React, {useState, useEffect} from "react";
 // import ReactDOM from "react-dom";
+import './App.css';
 import { withFormik, Form, Field } from "formik";
 import * as Yup from "yup";
 import axios from "axios";
 
 function LoginForm({ values, errors, touched, isSubmitting }) {
+// =======================useState and useEffect used for render begining=======
 
   const [users, setUsers] = useState([]);
 
@@ -13,6 +15,7 @@ function LoginForm({ values, errors, touched, isSubmitting }) {
 
     isSubmitting && setUsers(users => [...users, isSubmitting]);
   }, [isSubmitting]);
+//=================useState and useEffect used for render ending==================
 
   return (
     <div>
@@ -50,6 +53,7 @@ function LoginForm({ values, errors, touched, isSubmitting }) {
 
 const FormikLoginForm = withFormik({
   mapPropsToValues({ email, password, tos, meal }) {
+    
     return {
       email: email || "",
       password: password || "",
@@ -73,8 +77,9 @@ const FormikLoginForm = withFormik({
         .post(" https://reqres.in/api/users", values)
         .then(res => {
           console.log(res); // Data was created successfully and logs to console
+          setSubmitting(res.data);
           resetForm();
-          setSubmitting(false);
+          
         })
         .catch(err => {
           console.log(err); // There was an error creating the data and logs to console
